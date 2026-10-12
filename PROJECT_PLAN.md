@@ -21,7 +21,7 @@ data acquisition, credentials, or real observations in the public repository.
 | Documentation-code audit | Reviewed | Correction declarations are optional and explicitly described as provider assertions, not an ERA5 verification gate |
 | Requested local folder | Created and populated | Separate `SCIENCE/INSAR_VIEWER` checkout, without processing inputs or private institute configuration |
 | Public GitHub remote | Verified and attached | `https://github.com/Antoine-dmt/INSAR_VIEWER.git`; separate local `main` branch |
-| Local main commit and push | Initial commit created; push authentication blocked | Public-safe source committed on `main` using GitHub noreply identity; push from an authenticated VS Code session is still required |
+| Local main commit and push | Published and verified | Public-safe source committed on `main` using GitHub noreply identity; the initial code and verification commits were confirmed on `origin/main` |
 | Field-data scientific validation | Not performed | Synthetic tests and successful rendering do not qualify products for publication |
 
 ## Scientific Limits
@@ -57,7 +57,7 @@ The original INSAR worktree is confirmed clean. Source-file preservation is
 covered by synthetic SHA-256 tests. Real observations, HDF5 products and
 credentials are excluded from the public deliverable. Git authentication tests
 previously failed: the shell did not inherit VS Code OAuth. The public remote
-now exists and is attached as `origin`. The direct push failed because the
-shell cannot read a GitHub username; VS Code Source Control Push or a manually
-authenticated terminal is required. The local commit uses a GitHub noreply
-address rather than the user's private email.
+now exists and is attached as `origin`. The direct shell push initially failed
+because it could not read a GitHub username, but publication subsequently
+succeeded through the authenticated session and was verified with `ls-remote`.
+Commits use a GitHub noreply address rather than the user's private email.
