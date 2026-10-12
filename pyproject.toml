@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "insar-viewer"
+version = "0.1.0"
+description = "Portable read-only viewer for geocoded ERA5-corrected MintPy products"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+dependencies = [
+  "numpy>=1.24", "h5py>=3.8", "rasterio>=1.3", "matplotlib>=3.7",
+  "PyYAML>=6", "pyproj>=3.5", "shapely>=2",
+]
+
+[project.optional-dependencies]
+test = ["pytest>=7", "playwright>=1.40"]
+
+[project.scripts]
+insar-viewer = "insar_viewer.server:main"
+
+[tool.setuptools.packages.find]
+include = ["insar_viewer*"]
+
+[tool.setuptools.package-data]
+insar_viewer = ["static/*.html", "static/*.css", "static/*.js"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

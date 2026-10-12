@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>InSAR Viewer</title>
+    <link rel="stylesheet" href="/style.css">
+  </head>
+  <body>
+    <main class="app-shell">
+      <nav class="mode-tabs" aria-label="Viewer mode">
+        <button id="losTabButton" class="mode-tab active" type="button">LOS interval + time series</button>
+        <button id="combinedTabButton" class="mode-tab" type="button">ASC/DESC east-up decomposition</button>
+      </nav>
+      <section class="toolbar" aria-label="Map controls">
+        <label>
+          <span>Project</span>
+          <select id="projectSelect"></select>
+        </label>
+        <label>
+          <span>Start</span>
+          <input id="startDate" type="date">
+        </label>
+        <label>
+          <span>End</span>
+          <input id="endDate" type="date">
+        </label>
+        <label class="threshold-control">
+          <span>Coherence threshold</span>
+          <input id="coherenceThreshold" type="range" min="0" max="1" step="0.05" value="0.5">
+          <output id="thresholdValue">0.50</output>
+        </label>
+        <label class="toggle-control">
+          <input id="gpsVectorsToggle" type="checkbox">
+          <span>GPS vectors</span>
+        </label>
+        <div class="reference-controls" aria-label="Temporary display reference">
+          <button id="setReferenceButton" class="secondary-button" type="button" disabled>Set reference</button>
+          <button id="resetReferenceButton" class="secondary-button" type="button" disabled>Reset</button>
+        </div>
+        <button id="renderButton" type="button">Render</button>
+      </section>
+
+      <section id="statusPanel" class="status-panel" aria-live="polite">
+        Loading projects...
+      </section>
+
+      <section id="losWorkspace" class="workspace">
+        <div class="map-panel">
+          <div id="mapFrame" class="map-frame" role="group" aria-label="ERA5 LOS displacement map">
+            <div class="empty-map">Render an ERA5 interval map to begin.</div>
+          </div>
+          <div class="map-footer">
+            <span id="mapMeta">ERA5 LOS displacement, hard coherence mask.</span>
+            <span id="clickMeta">Click the map to sample an InSAR pixel.</span>
+          </div>
+          <div id="losExportRow" class="export-row hidden" aria-label="Download LOS map">
+            <span>Download map</span>
+            <a id="losJpegDownload" class="export-link" href="#">JPEG</a>
+            <a id="losGeotiffDownload" class="export-link" href="#">GeoTIFF</a>
+          </div>
+        </div>
+
+        <aside class="side-panel">
+          <div class="panel-block">
+            <label>
+              <span>GPS station</span>
+              <select id="gpsSelect">
+                <option value="">No station selected</option>
+              </select>
+            </label>
+          </div>
+          <div class="panel-block">
+            <canvas id="seriesCanvas" width="720" height="420"></canvas>
+          </div>
+          <div id="seriesDetails" class="series-details">
+            Select a station and/or click a pixel to compare LOS time series.
+          </div>
+        </aside>
+      </section>
+
+      <section id="combinedWorkspace" class="combined-workspace hidden">
+        <div class="map-panel">
+          <div id="combinedUpFrame" class="map-frame" role="group" aria-label="ASC/DESC vertical displacement map">
+            <div class="empty-map">Render an ASC/DESC decomposition to begin.</div>
+          </div>
+          <div class="map-footer">
+            <span id="combinedUpMeta">Vertical displacement in cm.</span>
+          </div>
+          <div id="combinedUpExportRow" class="export-row hidden" aria-label="Download vertical displacement map">
+            <span>Download vertical map</span>
+            <a id="combinedUpJpegDownload" class="export-link" href="#">JPEG</a>
+            <a id="combinedUpGeotiffDownload" class="export-link" href="#">GeoTIFF</a>
+          </div>
+          <div class="combined-series-panel">
+            <label>
+              <span>GPS vertical station</span>
+              <select id="combinedUpGpsSelect">
+                <option value="">No station selected</option>
+              </select>
+            </label>
+            <canvas id="combinedUpCanvas" width="720" height="300"></canvas>
+            <div id="combinedUpDetails" class="series-details compact">
+              Click either component map to sample an InSAR pixel.
+            </div>
+          </div>
+        </div>
+        <div class="map-panel">
+          <div id="combinedEastFrame" class="map-frame" role="group" aria-label="ASC/DESC east-west displacement map">
+            <div class="empty-map">Render an ASC/DESC decomposition to begin.</div>
+          </div>
+          <div class="map-footer">
+            <span id="combinedEastMeta">East displacement in cm.</span>
+          </div>
+          <div id="combinedEastExportRow" class="export-row hidden" aria-label="Download east displacement map">
+            <span>Download east map</span>
+            <a id="combinedEastJpegDownload" class="export-link" href="#">JPEG</a>
+            <a id="combinedEastGeotiffDownload" class="export-link" href="#">GeoTIFF</a>
+          </div>
+          <div class="combined-series-panel">
+            <label>
+              <span>GPS east-west station</span>
+              <select id="combinedEastGpsSelect">
+                <option value="">No station selected</option>
+              </select>
+            </label>
+            <canvas id="combinedEastCanvas" width="720" height="300"></canvas>
+            <div id="combinedEastDetails" class="series-details compact">
+              Click either component map to sample an InSAR pixel.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script src="/map-viewport.js"></script>
+    <script src="/app.js"></script>
+  </body>
+</html>

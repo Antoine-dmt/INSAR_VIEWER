@@ -1,0 +1,42 @@
+version: 1
+projects:
+  - id: site_a_asc
+    label: Site A - ASC
+    group: site_a
+    mission: sentinel1
+    orbit: ASC
+    look_direction: right
+    aoi:
+      bbox: [-117.20, 32.78, -117.15, 32.83]
+    timeseries:
+      path: ${INSAR_DATA}/site_a/ascending/corrected_displacement.h5
+      corrections: [ERA5]
+    ifgram_stack:
+      path: ${INSAR_DATA}/site_a/ascending/interferograms.h5
+      retained_dataset: dropIfgram
+      quality_dataset: coherence
+    geometry:
+      path: ${INSAR_DATA}/site_a/ascending/geometry.h5
+      azimuth_convention: mintpy_ground_to_satellite
+    # Optional: gnss: {path: "${INSAR_DATA}/site_a/gnss"}
+    # Optional viewer-only common spatial datum for ASC/DESC:
+    # reference_point: {latitude: 32.80, longitude: -117.19}
+
+  - id: site_a_desc
+    label: Site A - DESC
+    group: site_a
+    mission: sentinel1
+    orbit: DESC
+    look_direction: right
+    aoi:
+      bbox: [-117.20, 32.78, -117.15, 32.83]
+    timeseries:
+      path: ${INSAR_DATA}/site_a/descending/corrected_displacement.h5
+      corrections: [ERA5]
+    ifgram_stack:
+      path: ${INSAR_DATA}/site_a/descending/interferograms.h5
+      retained_dataset: dropIfgram
+      quality_dataset: coherence
+    geometry:
+      path: ${INSAR_DATA}/site_a/descending/geometry.h5
+      azimuth_convention: mintpy_ground_to_satellite
